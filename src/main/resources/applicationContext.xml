@@ -2,16 +2,77 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	
 	<bean id="triangle" class="com.sp.model.Triangle"></bean>
-	<bean id="circle" class="com.sp.model.Circle"></bean>
+	<!-- <bean id="circle" class="com.sp.model.Circle"></bean>  -->   
 	<bean id="loggingAspect" class="com.sp.aspect.LoggingAspect"></bean>
+	
+	<bean id="pointA" class="com.sp.model.Point">
+		<qualifier value="circleRelated"></qualifier>
+		<property name="x" value="0"></property>
+		<property name="y" value="0"></property>
+	</bean>
+	
+	<!-- <alias name="pointA" alias="center"/>  -->
+	
+	<bean id="pointB" class="com.sp.model.Point" >
+		<property name="x" value="20"></property>
+		<property name="y" value="20"></property>
+	</bean>
+	
+	<bean id="pointC" class="com.sp.model.Point" >
+		<property name="x" value="0"></property>
+		<property name="y" value="20"></property>
+	</bean>
+		
+	<bean id="auditData" class="com.sp.model.AuditData" abstract="true">
+		<property name="createdBy" value="${audit.createdBy}"/>
+		<property name="modifiedBy" value="${audit.modifiedBy}"/>
+	</bean>
+	<!-- parent list can also be merged to add new elements --> 
+	<bean id="user" class="com.sp.model.User" parent="auditData" >
+		<property name="userName" value="me" />
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>resourceBundle</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 
+	<bean class="com.sp.processor.TestBeanFactoryPostProcessor" />
+	<bean class="com.sp.processor.TestBeanPostProcessor" />
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	
+	 -->
+	 
+	 <context:annotation-config></context:annotation-config>
+	 <context:component-scan base-package="com.sp.model" ></context:component-scan>
+	 <context:component-scan base-package="com.sp.listener"></context:component-scan>
+	 
+
+	<!-- Auto of the box BeanFactory postprocessor -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+		<property name="locations" value="properties.properties" />
+	</bean>
+	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	
-	<aop:config>
-		<aop:aspect ref="loggingAspect" id="loggingAspect"></aop:aspect>
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="loggingAspect" id="loggingAspect">
+			<aop:before pointcut="execution(public * draw())" method="printAspect"/>
+		</aop:aspect>
 	
 	</aop:config>
 </beans>
