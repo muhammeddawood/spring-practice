@@ -1,7 +1,7 @@
 package com.sp;
 
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.sp.model.Shape;
 import com.sp.model.Triangle;
@@ -10,7 +10,7 @@ import com.sp.model.User;
 public class Test {
 
 	public static void main(String[] args) {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		AbstractApplicationContext context = new FileSystemXmlApplicationContext("src/main/webapp/WEB-INF/spring/applicationContext.xml");
 		context.registerShutdownHook();
 		Triangle triangle = (Triangle)context.getBean("triangle");
 		Shape circle = (Shape)context.getBean("circle");

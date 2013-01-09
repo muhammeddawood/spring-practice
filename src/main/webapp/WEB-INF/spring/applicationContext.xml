@@ -64,7 +64,7 @@
 
 	<!-- Auto of the box BeanFactory postprocessor -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
-		<property name="locations" value="properties.properties" />
+		<property name="locations" value="classpath:properties.properties" />
 	</bean>
 	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
