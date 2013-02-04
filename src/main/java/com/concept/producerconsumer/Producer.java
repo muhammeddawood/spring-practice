@@ -16,14 +16,19 @@ public class Producer implements Runnable{
 					si.produce();
 					i++;
 					si.notifyAll();
-				}
-				else {
 					try {
 						si.wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
+				/*else {
+					try {
+						si.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}*/
 			}
 			System.out.println(i);
 		}
