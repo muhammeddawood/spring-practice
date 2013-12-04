@@ -9,8 +9,19 @@ repositories {
 dependencies {
 	compile 'org.springframework:spring-context:3.2.0.RELEASE', 'org.springframework:spring-webmvc:3.2.0.RELEASE', 'org.codehaus.jackson:jackson-mapper-asl:1.9.11'
 	compile 'org.aspectj:aspectjrt:1.7.1', 'org.aspectj:aspectjweaver:1.7.1', 'org.springframework.hateoas:spring-hateoas:0.3.0.RELEASE'
+	// json dependency
+    compile 'net.sf.json-lib:json-lib:2.4:jdk15'
+    compile 'net.sf.ezmorph:ezmorph:1.0.6'
+	// REST service dependencies
+    compile 'org.glassfish.jersey.core:jersey-common:2.2'
+    compile 'org.glassfish.jersey.core:jersey-client:2.2'
+    compile 'org.glassfish.jersey.core:jersey-server:2.2'
+	compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.2'
+	
 	compile files('lib/ojdbc14.jar')
 	testCompile 'junit:junit:4.11'
+	testCompile "org.mockito:mockito-core:1.9.5"
+	testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-bundle:2.2'
 }
 
 httpPort = 9595
